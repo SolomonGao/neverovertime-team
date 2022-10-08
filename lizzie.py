@@ -1,6 +1,4 @@
 
-
-import database
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog as fd
@@ -97,10 +95,8 @@ def second_window():
     l1.grid(row=0, column=0)
     l2.grid(row = 2, column = 0)
 
-    
 
 def third_window(window2_main):
-    database.main(the_filename, the_filename2, the_folder)
     window2_main.destroy()
     window3_main = tk.Tk()
     window3_main.title("Creating Database")
