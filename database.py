@@ -23,13 +23,24 @@ def getAllTableNames(cursor):
     tables = cursor.fetchall()
     return tables
 
-def getIDIndex(columnList):
+def getIDIndex(columnDic):
 
-    i = 0
-    while i < len(columnList):
-        if columnList[i] == "ID":
-            return i
-        i += 1 
+    n = 0
+    for key in columnDic.keys():
+        if key == "ID":
+            return n
+        n += 1
+
+def SqlSentenceForColumn(columnNameDic):
+    sentence = " ( "
+    n = 0
+    for k, v in columnNameDic.items():
+        if n != len(columnNameDic) - 1:
+            sentence += k + " " + v + ", "
+        else:
+            sentence += k + " " + v + " )"
+        n += 1
+    return sentence
 
 def getColunmNames(cursor, tableName):
     
@@ -38,11 +49,11 @@ def getColunmNames(cursor, tableName):
     cursor.execute(sql)
     columnsInfo = cursor.fetchall()
 
-    columnsList = []
-
+    columnsDic = dict()
     for column in columnsInfo:
-        columnsList.append(column[1])
-    return columnsList
+        columnsDic[column[1]] = column[2]
+
+    return columnsDic
 
 def reorderID(IDIndex, data):
 
@@ -77,25 +88,33 @@ def main():
         if temp_table_name != "sqlite_sequence":
 
             # get all the columns name of this table
-            temp_columns_list = getColunmNames(cur1, temp_table_name)
-            #print(temp_columns_list)
+            temp_columns_dic = getColunmNames(cur1, temp_table_name)
+            # print(temp_columns_list)
             # get the index of ID column of this table
-            ID_index = getIDIndex(temp_columns_list)
+            ID_index = getIDIndex(temp_columns_dic)
             
+            # the sql command to create table
+            column_sentence = SqlSentenceForColumn(temp_columns_dic)
+            sql_creating = "CREATE TABLE IF NOT EXISTS " + temp_table_name + column_sentence
+            # print(sql_creating)
+            target_conn = sqlite3.connect("test.db3")
+            target_cur = target_conn.cursor()
+            target_cur.execute(sql_creating)
+            target_conn.commit()
 
-            # start merging
-            sql = "SELECT * FROM " + temp_table_name
-            cur1.execute(sql)
-            result1 = cur1.fetchall() # all the rows in table1
-            cur2.execute(sql)
-            result2 = cur2.fetchall() # all the rows in table2
+            
+            # # start merging
+            # sql = "SELECT * FROM " + temp_table_name
+            # cur1.execute(sql)
+            # result1 = cur1.fetchall() # all the rows in table1
+            # cur2.execute(sql)
+            # result2 = cur2.fetchall() # all the rows in table2
 
-            # temp_result = set(result1) | set(result2)
-            temp_result = result1 + result2
+            # # temp_result = set(result1) | set(result2)
+            # temp_result = result1 + result2
 
-            orderedList = reorderID(ID_index, temp_result)
-            if temp_table_name == "JobSubCategories":
-                print(orderedList)
+            
+            # orderedList = reorderID(ID_index, temp_result)
             
 
 
