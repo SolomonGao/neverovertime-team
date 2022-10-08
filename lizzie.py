@@ -61,12 +61,13 @@ def first_window():
     l2 = ttk.Label(root, text="Second File:", border= 7, borderwidth=20)
     l3 = ttk.Label(root, text="     " )
 
+
     open_button.grid(row = 0, column = 1)
-    other_button.grid(row = 2, column = 1)
+    other_button.grid(row = 1, column = 1)
     button3.grid(row=3, column=1)
     l1.grid(row = 0, column = 0)
-    l3.grid(row = 1, column = 0)
-    l2.grid(row = 2, column = 0)
+    l3.grid(row = 2, column = 0)
+    l2.grid(row = 1, column = 0)
 
 def second_window():
     root.destroy()
@@ -83,10 +84,16 @@ def second_window():
 
     button3 = ttk.Button(window2_main, text="Create Database", command=lambda: third_window(window2_main))
 
+    #entry = ttk.Entry(window2_main, width= 42)
+    l1 = ttk.Label(window2_main, text="Choose a Location", border= 7, borderwidth=20)
+    l2 = ttk.Label(window2_main, text='Filename: "new_database.db3"', border= 7, borderwidth=20)
+    
+    #entry.grid(row=2, column=1)
     open_button.grid(row = 1, column = 0)
     button3.grid(row=3, column=0)
-    l1 = ttk.Label(window2_main, text="Choose a location to save your new file to", border= 7, borderwidth=20)
-    l1.grid(row = 0, column = 0)
+
+    l1.grid(row=0, column=0)
+    l2.grid(row = 2, column = 0)
 
 
 def third_window(window2_main):
