@@ -49,15 +49,15 @@ for temp in temp_list:
 
 temp_sql = ""
 temp_data_list = results
-# table = "jobSubCategories"
+table = "jobSubCategories"
 
-# sql = """CREATE TABLE IF NOT EXISTS jobSubcategories( ID integer PRIMARY KEY NOT NULL, name text NOT NULL, SortID int NOT NULL)"""
+sql = """CREATE TABLE IF NOT EXISTS jobSubcategories( ID integer PRIMARY KEY NOT NULL, name text NOT NULL, SortID int NOT NULL)"""
 
-# des_cur.execute(sql)
+des_cur.execute(sql)
 
-# for a in temp_list:
+for a in temp_list:
 
-#     des_cur.execute('INSERT OR IGNORE INTO jobSubcategories (ID, name, SortID) VALUES(?, ?, ?)', (a[0], str(a[1]), a[2]))
+    des_cur.execute('INSERT OR IGNORE INTO jobSubcategories (ID, name, SortID) VALUES(?, ?, ?)', (a[0], str(a[1]), a[2]))
 
 des_conn.commit()
  
