@@ -44,7 +44,8 @@ def getColunmNames(cursor, tableName):
         columnsList.append(column[1])
     return columnsList
 
-def reorderID()
+def reorderID(IDIndex, data):
+    
 
 def main():
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
