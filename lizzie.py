@@ -11,11 +11,12 @@ the_folder = ""
 root = tk.Tk()
 root.title('Tkinter Open File Dialog')
 root.resizable(True, True)
-root.geometry('700x500')
+root.geometry('500x250')
 
 def select_file(button):
     filetypes = (
         ('databse files', '*.db3'),
+        ('databse files', '*.epidb'),
         ('All files', '*.*')
     )
 
@@ -73,7 +74,8 @@ def second_window():
     root.destroy()
     window2_main = tk.Tk()
     window2_main.title("Create new folder")
-    window2_main.geometry('700x500')
+    window2_main.resizable(True, True)
+    window2_main.geometry('500x250')
 
     open_button = ttk.Button(
         window2_main,
@@ -101,7 +103,8 @@ def third_window(window2_main):
     window2_main.destroy()
     window3_main = tk.Tk()
     window3_main.title("Creating Database")
-    window3_main.geometry('700x500')
+    window3_main.resizable(True, True)
+    window3_main.geometry('500x250')
     l1 = ttk.Label(window3_main, text="Database was created", border= 7, borderwidth=20)
     l1.grid(row = 0, column = 0)
 
