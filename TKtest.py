@@ -32,7 +32,8 @@ def selectFile1(button):
     
     global file_path1
     filetypes = (
-        ('databse files', '*.sql'), 
+        ('databse files', '*.sql'),
+        ('databse files', '*.db3') 
     )
     file_path1 = fd.askopenfilename(
     title='Select a file',
@@ -46,7 +47,8 @@ def selectFile2(button):
     
     global file_path2
     filetypes = (
-        ('databse files', '*.sql'), 
+        ('databse files', '*.sql'),
+        ('databse files', '*.db3')
     )
     file_path2 = fd.askopenfilename(
     title='Select a file',
