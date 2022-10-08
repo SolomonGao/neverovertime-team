@@ -61,14 +61,9 @@ def create_subfolder(folder_name):
        source_path = fd.askdirectory(title='Select the Parent Directory')
        path = os.path.join(source_path, folder_name)
        os.makedirs(path)
-       print(path)
-
-def clear_data(entry):
-       entry.delete(0, END) 
+       return folder_name
 
 def folder_created_message():
-#    label.Label(window2_main, text="New Folder was created", bg="white")
-    # window2_main.geometry("500x500")
     top = Toplevel()
     top.geometry("250x250")
     top.title("Child Window")
@@ -106,16 +101,25 @@ def openWindow2():
        pady=5,
        ).pack()
 
-    # button1.grid(row=3,column=5)
+    def export_file():
+        dir_name = fd.askdirectory() # asks user to choose a directory
+        os.chdir(dir_name) # changes your current directory
+
+    # def combined():
+    #     create_file(entry1)
+    #     export_file()
 
 
+    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry)))
+    button2.pack()
 
-    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).pack()
-
-    button3 = Button(window2_main, text="Clear", command=folder_created_message).pack()
+    # button3 = Button(window2_main, text="Clear", command= older_created_message(entry1, entry)).grid(row=3, column=4)
     
-    entry1 = Entry(window2_main).pack()
-    button1 = Button(window2_main,text="Press to create bd3 file", command = lambda:create_subfolder(create_file(entry1))).pack()
+    export_file()
+    entry1 = Entry(window2_main)
+    entry1.pack()
+    button1 = Button(window2_main,text="Press to create bd3 file", command = create_file(entry1))
+    button1.pack()
 
     window2_main.mainloop()
 
@@ -127,11 +131,10 @@ button1 = Button(root, text="Select file", command=lambda:file_path1 == selectFi
 button1.grid(row = 0, column = 1)
 
 file_path2 = ''
-button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile2(button2))
+button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile1(button1))
 button2.grid(row = 2, column = 1)
 
 button3 = Button(root, text="Next", command=openWindow2)
-# button3 = Button(root, text="Next", command=openWindow)
 button3.grid(row=3, column=1)
 
 # Set the background color
