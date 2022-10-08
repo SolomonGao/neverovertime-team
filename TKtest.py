@@ -25,20 +25,33 @@ l3.grid(row = 1, column = 0)
 l2.grid(row = 2, column = 0)
 
 
-def selectFile(button):
+def selectFile1(button):
     '''Select a file'''
     
-    global file_path
+    global file_path1
     filetypes = (
         ('databse files', '*.sql'), 
     )
-    file_path = fd.askopenfilename(
+    file_path1 = fd.askopenfilename(
     title='Select a file',
     initialdir='/',
     filetypes=filetypes) 
-    button['text'] = file_path
-    return file_path
+    button['text'] = file_path1
+    return file_path1
 
+def selectFile2(button):
+    '''Select a file'''
+    
+    global file_path2
+    filetypes = (
+        ('databse files', '*.sql'), 
+    )
+    file_path2 = fd.askopenfilename(
+    title='Select a file',
+    initialdir='/',
+    filetypes=filetypes) 
+    button['text'] = file_path2
+    return file_path2
 
 # def displayFilename(button, fileName):
 #     '''Replace the button with the file path'''
@@ -60,11 +73,11 @@ def openWindow2():
 
 # create button for user to click and select files
 file_path1 = ''
-button1 = Button(root, text="Select file", command=lambda:file_path1 == selectFile(button1))
+button1 = Button(root, text="Select file", command=lambda:file_path1 == selectFile1(button1))
 button1.grid(row = 0, column = 1)
 
 file_path2 = ''
-button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile(button2))
+button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile2(button2))
 button2.grid(row = 2, column = 1)
 
 Label(root, text=file_path1).grid(row=3, column=5)
