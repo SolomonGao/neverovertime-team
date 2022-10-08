@@ -1,21 +1,17 @@
 import sqlite3
 
-
+# The function gets the file path and connects it to the sqlite3 and returns the curosr.
 def readDatabase(filePath):
     conn = sqlite3.connect(filePath)
     cur = conn.cursor()
     return cur
 
-def checkDupilcate():
-    pass
-
-def checkId():
-    pass
-
+# The function merges two set into one (No duplicate) and returns it.
 def merge(table1, table2):
     combined = set(table1) | set(table2)
     return combined
 
+# This function returns all the table names in the database.
 def getAllTableNames(cursor):
 
     sql="SELECT name FROM sqlite_master WHERE type='table'"
@@ -23,6 +19,7 @@ def getAllTableNames(cursor):
     tables = cursor.fetchall()
     return tables
 
+# This function returns the ID indext of one selected table.
 def getIDIndex(columnDic):
 
     n = 0
@@ -31,6 +28,8 @@ def getIDIndex(columnDic):
             return n
         n += 1
 
+# This function forms a sql command that stores all the columns names and data types and returns it.
+# Format :  ( column name datatype, column name data type, .... ) (based on the length)
 def SqlSentenceForColumn(columnNameDic):
     sentence = " ( "
     n = 0
@@ -42,6 +41,7 @@ def SqlSentenceForColumn(columnNameDic):
         n += 1
     return sentence
 
+# This function returns a dictionary. The key is the column name and the value is the data type in sql.
 def getColunmNames(cursor, tableName):
     
     sql = "PRAGMA table_info(" + tableName + ")"
@@ -55,6 +55,7 @@ def getColunmNames(cursor, tableName):
 
     return columnsDic
 
+# This function reorders the ID for the merged table and return it.
 def reorderID(IDIndex, data):
 
     j = 1
@@ -70,6 +71,7 @@ def reorderID(IDIndex, data):
         j += 1
     return temp_list
 
+# This function creates a new table in the new database.
 def createTables(targetConn, tableName, columnsDic):
     # the sql command to create table
     column_sentence = SqlSentenceForColumn(columnsDic)
@@ -78,7 +80,9 @@ def createTables(targetConn, tableName, columnsDic):
 
     target_cur = targetConn.cursor()
     target_cur.execute(sql_creating)
-    
+
+# This function forms a sql command for insertion. 
+# Format :  INSERT OR IGNORE INTO "table name" (?, ?, ?, ....)(based on the length)
 def sqlSentenceForInsertion(tableName, columnNameDic):
 
     table = tableName + "("
@@ -96,6 +100,7 @@ def sqlSentenceForInsertion(tableName, columnNameDic):
     sql = "INSERT OR IGNORE INTO " + table + value
     return sql
 
+# This function inserts a row into a selected table 
 def insertValue(targetConn, tableName, columnsDic, values):
     # the sql command to insert row in to a table
     sql = sqlSentenceForInsertion(tableName, columnsDic)
@@ -145,25 +150,15 @@ def main():
             # reorder the id index
             orderedRows = reorderID(ID_index, temp_result)
 
+            # loop the data in the table
             for row in orderedRows:
-            
                 tempValue = []
                 for value in row:
                     tempValue.append(value)
-
                 tempValue = tuple(tempValue)
-
                 insertValue(target_conn, temp_table_name, temp_columns_dic, tempValue)
 
             target_conn.commit()
-            
-            
-                
-
-            # target_conn.commit()
-            
-
-
 
 if __name__ == "__main__":
     main()
