@@ -23,9 +23,21 @@ def getAllTableNames(cursor):
     tables = cursor.fetchall()
     return tables
 
+def getIDIndex(cursor, tableName):
 
+    sql = "PRAGMA table_info(" + tableName + ")"
 
+    cursor.execute(sql)
+    results = cursor.fetchall()
 
+    i = 0
+    while i < len(results):
+        if results[i][1] == "ID":
+            return i
+        i += 1
+
+def getColunmNames():
+    pass
 
 def main():
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
@@ -43,13 +55,17 @@ def main():
         #print(temp_table_name)
         if temp_table_name != "sqlite_sequence":
             sql = "SELECT * FROM " + temp_table_name
+            
             cur1.execute(sql)
             result1 = cur1.fetchall() # all the rows in table1
             cur2.execute(sql)
             result2 = cur2.fetchall() # all the rows in table2
 
-            temp_result = result1 + result2
-            print(len(temp_result))
+            # temp_result = result1 + result2
+            
+            print(temp_table_name)
+            IDIndex = getIDIndex(cur1,temp_table_name)
+            print(IDIndex)
 
 
 
