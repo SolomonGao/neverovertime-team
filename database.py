@@ -29,7 +29,7 @@ def getIDIndex(columnDic):
         n += 1
 
 # This function forms a sql command that stores all the columns names and data types and returns it.
-# Format :  ( column name datatype PRIMARY KEY(if applied) AUTOINCREMENT(), column name data type, .... ) (based on the length)
+# Format :  ( column name datatype PRIMARY KEY AUTOINCREMENT(if applied), column name data type, .... ) (based on the length)
 def SqlSentenceForColumn(columnNameDic):
     sentence = " ("
     n = 0
