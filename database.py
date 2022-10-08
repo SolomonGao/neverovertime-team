@@ -1,4 +1,4 @@
-from operator import index
+from operator import itemgetter
 import sqlite3
 
 # The function gets the file path and connects it to the sqlite3 and returns the curosr.
@@ -63,13 +63,14 @@ def getColunmNames(cursor, tableName):
 
     return columnsDic
 
+    
 # This function reorders the ID for the merged table and return it.
 def reorderID(IDIndex, data):
 
     j = 1
     temp_list = []
-    
-    data = sorted(data, key=lambda x: data[0][IDIndex])
+    print(data)
+    data = sorted(data, key=itemgetter(IDIndex))
     for datum in data:
         temp = []
         for i in range(len(datum)):
