@@ -29,15 +29,22 @@ def getIDIndex(columnDic):
         n += 1
 
 # This function forms a sql command that stores all the columns names and data types and returns it.
-# Format :  ( column name datatype, column name data type, .... ) (based on the length)
+# Format :  ( column name datatype PRIMARY KEY(if applied), column name data type, .... ) (based on the length)
 def SqlSentenceForColumn(columnNameDic):
     sentence = " ( "
     n = 0
     for k, v in columnNameDic.items():
-        if n != len(columnNameDic) - 1:
-            sentence += k + " " + v + ", "
+        if k != "ID":
+            if n != len(columnNameDic) - 1:
+                sentence += k + " " + v + ", "
+            else:
+                sentence += k + " " + v + " )"
         else:
-            sentence += k + " " + v + " )"
+            if n != len(columnNameDic) - 1:
+                sentence += k + " " + v + " PRIMARY KEY " + ", " 
+            else:
+                sentence += k + " " + v + " PRIMARY KEY " + ")" 
+
         n += 1
     return sentence
 
