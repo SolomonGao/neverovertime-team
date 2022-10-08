@@ -57,15 +57,6 @@ def selectFile2(button):
     button['text'] = file_path2
     return file_path2
 
-def openWindow():
-    new = Toplevel()
-    new.geometry("500x500")
-    new.title("Folder location")
-    myLabel = Label(new, text="Add some thing")
-    myLabel.grid(row=0, column=0)
-
-
-
 def create_subfolder(folder_name):
        source_path = fd.askdirectory(title='Select the Parent Directory')
        path = os.path.join(source_path, folder_name)
