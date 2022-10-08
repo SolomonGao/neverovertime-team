@@ -62,16 +62,11 @@ def openWindow():
     myLabel = Label(new, text="Add some thing")
     myLabel.grid(row=0, column=0)
 
-
-
 def create_subfolder(folder_name):
        source_path = fd.askdirectory(title='Select the Parent Directory')
        path = os.path.join(source_path, folder_name)
        os.makedirs(path)
-       print(path)
-
-def clear_data(entry):
-       entry.delete(0, END) 
+       return folder_name
 
 def folder_created_message():
 #    label.Label(window2_main, text="New Folder was created", bg="white")
@@ -80,17 +75,10 @@ def folder_created_message():
     top.geometry("250x250")
     top.title("Child Window")
     Label(top, text= "You made it Joseph!!", font=('Mistral 18 bold')).pack()
-    # top.messagebox("Information","You have successfully created the folder")
 
 def get_data(entry):
        folder_name = entry.get()
-       # print(folder_name)
        return folder_name
-
-def create_file(entry1):
-    Input = entry1.get()
-    FileName = str(Input + ".db3")
-    TextFile = open(FileName,"w")
 
 def openWindow2():
     root.destroy()
@@ -98,13 +86,9 @@ def openWindow2():
     window2_main.geometry("700x500")
     window2_main.title("Create new folder")
     Label(window2_main, text="New").pack()
-    # Import the required libraries
-    # Import the required libraries
 
-     # Create an instance of tkinter frame or window
-
-    entry = Entry(window2_main, width= 42)
-    entry.pack()
+    folder_name = Entry(window2_main, width= 42)
+    folder_name.pack()
     
     Label(
        window2_main,
@@ -113,20 +97,27 @@ def openWindow2():
        pady=5,
        ).pack()
 
-    # button1.grid(row=3,column=5)
+    def create_file():
+        input= entry1.get()
+        FileName = str(input + ".db3")
+        TextFile = open(FileName,"w")
 
+    def Export_File():
+        dir_name = fd.askdirectory() # asks user to choose a directory
+        os.chdir(dir_name) # changes your current directory
 
+    def combined():
+        create_file()
+        Export_File()
 
-    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).pack()
+    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(folder_name))).pack()
 
     button3 = Button(window2_main, text="Clear", command=folder_created_message).pack()
     
-    entry1 = Entry(window2_main).pack()
-    button1 = Button(window2_main,text="Press to create bd3 file", command = lambda:create_subfolder(create_file(entry1))).pack()
-
-    window2_main.mainloop()
-
-
+    entry1 = Entry(window2_main)
+    entry1.pack()
+    button1 = Button(window2_main,text="Press to create db3 file", command=combined)
+    button1.pack()
 
 # create button for user to click and select files
 file_path1 = ''

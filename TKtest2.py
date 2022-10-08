@@ -148,6 +148,16 @@
 # print(file_path2)
 
 from tkinter import *
+import os 
+from cProfile import label
+import tkinter as tk
+from tkinter import RIGHT, ttk
+from tkinter import filedialog as fd
+from tkinter.messagebox import showinfo
+from tkinter import messagebox
+from tkinter.ttk import *
+from tkinter import *
+import os
 root = Tk()
 
 def clicked():
@@ -155,6 +165,11 @@ def clicked():
     FileName = str(Input + ".db3")
     TextFile = open(FileName,"w")
 
+def Export_File():
+    dir_name = fd.askdirectory() # asks user to choose a directory
+    os.chdir(dir_name) # changes your current directory
+    
+Export_File()
 entry1 = Entry(root)
 button1 = Button(root,text="Press to create text file", command = clicked)
 entry1.pack()
