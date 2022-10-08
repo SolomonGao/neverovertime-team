@@ -1,6 +1,5 @@
 
 from msilib.schema import tables
-from re import I
 import sqlite3
 import os
 import sys
@@ -10,14 +9,15 @@ data = sqlite3.connect("D:/test/EpilogJobManagement.db3-first.db3")
 
 cursor = data.cursor()
 
-table = "Configuration"
-sql = "PRAGMA table_info(" + table + ")"
-
+table = "jobSubCategories"
+sql = "SELECT * FROM " + table
+print(sql)
 cursor.execute(sql)
-results = cursor.fetchall()
+data = cursor.fetchall()
 
-i = 0
-while i < len(results):
-    if results[i][1] == "ID":
-        print(i)
-    i += 1
+list = []
+id = 0
+for datum in data:
+    for i in range(len(datum)):
+        temp = ()
+    list.append()
