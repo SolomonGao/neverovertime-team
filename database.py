@@ -174,9 +174,6 @@ def main():
                     tempValue.append(value)
                 tempValue = tuple(tempValue)
                 insertValue(target_conn, temp_table_name, temp_columns_dic, tempValue)
-
-            if temp_table_name == "Settings":
-                print(str(len(ordered_rows)) + " vs " + str(len(result1)) + " vs " + str(len(result2)))
             target_conn.commit()
 
 if __name__ == "__main__":
