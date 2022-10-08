@@ -92,30 +92,34 @@ def create_file(entry1):
     FileName = str(Input + ".db3")
     TextFile = open(FileName,"w")
 
-
-
 def openWindow2():
     root.destroy()
     window2_main = Tk()
     window2_main.geometry("700x500")
     window2_main.title("Create new folder")
-    Label(window2_main, text="Creating File and Folder").grid(row= 1, column= 2)
+    Label(window2_main, text="New").pack()
+    # Import the required libraries
+    # Import the required libraries
+
+     # Create an instance of tkinter frame or window
 
     entry = Entry(window2_main, width= 42)
-    entry.grid(row=2, column=3)
-    Label(window2_main,text="Name New Folder", padx=10, pady=5,).grid(row=2, column=2)
+    entry.pack()
+    
+    Label(
+       window2_main,
+       text="Name New Folder", 
+       padx=10, 
+       pady=5,
+       ).pack()
 
-    entry1 = Entry(window2_main, width=42)
-    entry1.grid(row=3, column=3)
-    Label(window2_main,text="Name New File", padx=10, pady=5,).grid(row=3, column=2)
-
-    button1 = Button(root,text="Press to create file", command = create_file(entry1))
-    button1.grid( )
+    # button1.grid(row=3,column=5)
 
 
-    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).grid(row=2, column=4)
 
-    button3 = Button(window2_main, text="Clear", command=folder_created_message).grid(row=3, column=4)
+    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).pack()
+
+    button3 = Button(window2_main, text="Clear", command=folder_created_message).pack()
     
     entry1 = Entry(window2_main).pack()
     button1 = Button(window2_main,text="Press to create bd3 file", command = create_file(entry1)).pack()
