@@ -32,7 +32,8 @@ def selectFile1(button):
     
     global file_path1
     filetypes = (
-        ('databse files', '*.sql'), 
+        ('databse files', '*.sql'),
+        ('databse files', '*.db3') 
     )
     file_path1 = fd.askopenfilename(
     title='Select a file',
@@ -46,7 +47,8 @@ def selectFile2(button):
     
     global file_path2
     filetypes = (
-        ('databse files', '*.sql'), 
+        ('databse files', '*.sql'),
+        ('databse files', '*.db3')
     )
     file_path2 = fd.askopenfilename(
     title='Select a file',
@@ -55,80 +57,64 @@ def selectFile2(button):
     button['text'] = file_path2
     return file_path2
 
-def openWindow():
-    new = Toplevel()
-    new.geometry("500x500")
-    new.title("Folder location")
-    myLabel = Label(new, text="Add some thing")
-    myLabel.grid(row=0, column=0)
-
-
-
 def create_subfolder(folder_name):
        source_path = fd.askdirectory(title='Select the Parent Directory')
        path = os.path.join(source_path, folder_name)
        os.makedirs(path)
-       print(path)
-
-def clear_data(entry):
-       entry.delete(0, END) 
-
-def folder_created_message():
-#    label.Label(window2_main, text="New Folder was created", bg="white")
-    # window2_main.geometry("500x500")
-    top = Toplevel()
-    top.geometry("250x250")
-    top.title("Child Window")
-    Label(top, text= "You made it Joseph!!", font=('Mistral 18 bold')).pack()
-    # top.messagebox("Information","You have successfully created the folder")
-
-def get_data(entry):
-       folder_name = entry.get()
-       # print(folder_name)
-       return folder_name
+       return path 
 
 def create_file(entry1):
     Input = entry1.get()
     FileName = str(Input + ".db3")
     TextFile = open(FileName,"w")
 
+def create_file_folder(file, folder):
+    file = create_file(entry1)
+    folder = create_subfolder(folder_name)
+
+
+def create_file(folder_name):
+    Input = entry1.get()
+    file_name = str(Input + ".db3")
+    TextFile = open(FileName,"w")
+
+def clear_data(entry):
+       entry.delete(0, END) 
+
+def folder_created_message():
+    top = Toplevel()
+    top.geometry("250x250")
+    top.title("Child Window")
+    Label(top, text= "You made it Joseph!!", font=('Mistral 18 bold')).pack()
+
+def get_data(entry):
+       folder_name = entry.get()
+       return folder_name
+
 def openWindow2():
     root.destroy()
     window2_main = Tk()
     window2_main.geometry("700x500")
     window2_main.title("Create new folder")
-    Label(window2_main, text="New").pack()
-    # Import the required libraries
-    # Import the required libraries
+    Label(window2_main, text="Creating File and Folder").grid(row= 1, column= 2)
 
-     # Create an instance of tkinter frame or window
+    entry = Entry(window2_main, width= 42) #name folder
+    entry.grid(row=2, column=3)
+    Label(window2_main,text="Name New Folder", padx=10, pady=5,).grid(row=2, column=2)
 
-    entry = Entry(window2_main, width= 42)
-    entry.pack()
+    entry1 = Entry(window2_main, width=42) #name file
+    entry1.grid(row=3, column=3)
+    Label(window2_main,text="Name New File", padx=10, pady=5,).grid(row=3, column=2)
+  
+    button2 = Button(window2_main,text="Select New Folder Location", command = lambda: create_subfolder(get_data(entry))).grid(row=2, column=4)
+
+    # button3 = Button(window2_main, text="Clear", command= older_created_message(entry1, entry)).grid(row=3, column=4)
     
-    Label(
-       window2_main,
-       text="Name New Folder", 
-       padx=10, 
-       pady=5,
-       ).pack()
-
-    # button1.grid(row=3,column=5)
-
-
-
-    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).pack()
-
-    button3 = Button(window2_main, text="Clear", command=folder_created_message).pack()
-    
-    entry1 = Entry(window2_main).pack()
-    button1 = Button(window2_main,text="Press to create bd3 file", command = create_file(entry1)).pack()
+    button1 = Button(window2_main,text="Press to create db3 file", command= create_file_folder(entry1, entry)).grid(row=3, column=4)
 
     window2_main.mainloop()
 
 
-
-# create button for user to click and select files
 file_path1 = ''
 button1 = Button(root, text="Select file", command=lambda:file_path1 == selectFile1(button1))
 button1.grid(row = 0, column = 1)
@@ -138,7 +124,6 @@ button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFi
 button2.grid(row = 2, column = 1)
 
 button3 = Button(root, text="Next", command=openWindow2)
-# button3 = Button(root, text="Next", command=openWindow)
 button3.grid(row=3, column=1)
 
 # Set the background color
