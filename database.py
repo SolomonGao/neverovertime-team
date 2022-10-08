@@ -70,9 +70,47 @@ def reorderID(IDIndex, data):
         j += 1
     return temp_list
 
+def createTables(targetConn, tableName, columnsDic):
+    # the sql command to create table
+    column_sentence = SqlSentenceForColumn(columnsDic)
+    sql_creating = "CREATE TABLE IF NOT EXISTS " + tableName + column_sentence
+    # print(sql_creating)
+
+    target_cur = targetConn.cursor()
+    target_cur.execute(sql_creating)
+    
+def sqlSentenceForInsertion(tableName, columnNameDic):
+
+    table = tableName + "("
+    value = " VALUES("
+    n = 0
+    for key in columnNameDic.keys():
+        if n != len(columnNameDic) - 1:
+            table += key +", "
+            value += "?, "
+        else:
+            table += key +")"
+            value += "?)"
+        n += 1
+
+    sql = "INSERT OR IGNORE INTO " + table + value
+    return sql
+
+def insertValue(targetConn, tableName, columnsDic, values):
+    # the sql command to insert row in to a table
+    sql = sqlSentenceForInsertion(tableName, columnsDic)
+
+    target_cur = targetConn.cursor()
+    target_cur.execute(sql, values)
+
+
 def main():
+    # two databases we are going to merge
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
     cur2 = readDatabase("D:/test/EpilogJobManagement.db3-second.db3")
+
+    # target database
+    target_conn = sqlite3.connect("test.db3")
     table1 = getAllTableNames(cur1)
     table2 = getAllTableNames(cur2)
     if table1 != table2:
@@ -93,28 +131,36 @@ def main():
             # get the index of ID column of this table
             ID_index = getIDIndex(temp_columns_dic)
             
-            # the sql command to create table
-            column_sentence = SqlSentenceForColumn(temp_columns_dic)
-            sql_creating = "CREATE TABLE IF NOT EXISTS " + temp_table_name + column_sentence
-            # print(sql_creating)
-            target_conn = sqlite3.connect("test.db3")
-            target_cur = target_conn.cursor()
-            target_cur.execute(sql_creating)
+            createTables(target_conn, temp_table_name, temp_columns_dic)
+            
+            # start merging
+            sql = "SELECT * FROM " + temp_table_name
+            cur1.execute(sql)
+            result1 = cur1.fetchall() # all the rows in table1
+            cur2.execute(sql)
+            result2 = cur2.fetchall() # all the rows in table2
+
+            # temp_result = set(result1) | set(result2)
+            temp_result = result1 + result2
+            # reorder the id index
+            orderedRows = reorderID(ID_index, temp_result)
+
+            for row in orderedRows:
+            
+                tempValue = []
+                for value in row:
+                    tempValue.append(value)
+
+                tempValue = tuple(tempValue)
+
+                insertValue(target_conn, temp_table_name, temp_columns_dic, tempValue)
+
             target_conn.commit()
-
             
-            # # start merging
-            # sql = "SELECT * FROM " + temp_table_name
-            # cur1.execute(sql)
-            # result1 = cur1.fetchall() # all the rows in table1
-            # cur2.execute(sql)
-            # result2 = cur2.fetchall() # all the rows in table2
-
-            # # temp_result = set(result1) | set(result2)
-            # temp_result = result1 + result2
-
             
-            # orderedList = reorderID(ID_index, temp_result)
+                
+
+            # target_conn.commit()
             
 
 
