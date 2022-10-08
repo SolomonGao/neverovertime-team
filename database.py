@@ -1,3 +1,4 @@
+from re import I
 import sqlite3
 
 
@@ -23,21 +24,26 @@ def getAllTableNames(cursor):
     tables = cursor.fetchall()
     return tables
 
-def getIDIndex(cursor, tableName):
+def getIDIndex(columnList):
 
+    i = 0
+    while i < len(columnList):
+        if columnList[i] == "ID":
+            return i
+        i += 1 
+
+def getColunmNames(cursor, tableName):
+    
     sql = "PRAGMA table_info(" + tableName + ")"
 
     cursor.execute(sql)
-    results = cursor.fetchall()
+    columnsInfo = cursor.fetchall()
 
-    i = 0
-    while i < len(results):
-        if results[i][1] == "ID":
-            return i
-        i += 1
+    columnsList = []
 
-def getColunmNames():
-    pass
+    for column in columnsInfo:
+        columnsList.append(column[1])
+    return columnsList
 
 def main():
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
@@ -51,11 +57,22 @@ def main():
     num_tables = len(table1)
 
     for i in range(num_tables):
+        # the name of the table we are going to merge
         temp_table_name = table1[i][0]
         #print(temp_table_name)
         if temp_table_name != "sqlite_sequence":
+
+            # get all the columns name of this table
+            temp_columns_list = getColunmNames(cur1, temp_table_name)
+            #print(temp_columns_list)
+            # get the index of ID column of this table
+            ID_index = getIDIndex(temp_columns_list)
+            print(ID_index)
+
+
+
+            # start merging
             sql = "SELECT * FROM " + temp_table_name
-            
             cur1.execute(sql)
             result1 = cur1.fetchall() # all the rows in table1
             cur2.execute(sql)
@@ -63,9 +80,7 @@ def main():
 
             # temp_result = result1 + result2
             
-            print(temp_table_name)
-            IDIndex = getIDIndex(cur1,temp_table_name)
-            print(IDIndex)
+
 
 
 
