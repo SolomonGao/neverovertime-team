@@ -1,4 +1,3 @@
-from re import I
 import sqlite3
 
 
@@ -45,6 +44,8 @@ def getColunmNames(cursor, tableName):
         columnsList.append(column[1])
     return columnsList
 
+def reorderID()
+
 def main():
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
     cur2 = readDatabase("D:/test/EpilogJobManagement.db3-second.db3")
@@ -67,9 +68,7 @@ def main():
             #print(temp_columns_list)
             # get the index of ID column of this table
             ID_index = getIDIndex(temp_columns_list)
-            print(ID_index)
-
-
+            
 
             # start merging
             sql = "SELECT * FROM " + temp_table_name
@@ -78,12 +77,8 @@ def main():
             cur2.execute(sql)
             result2 = cur2.fetchall() # all the rows in table2
 
-            # temp_result = result1 + result2
+            temp_result = set(result1) | set(result2)
             
-
-
-
-
 
 
 
