@@ -41,9 +41,9 @@ def SqlSentenceForColumn(columnNameDic):
                 sentence += k + " " + v + ")"
         else:
             if n != len(columnNameDic) - 1:
-                sentence += k + " " + v + " PRIMARY KEY " + "AUTOINCREMENT" + ", " 
+                sentence += k + " " + v + " PRIMARY KEY AUTOINCREMENT" + ", " 
             else:
-                sentence += k + " " + v + " PRIMARY KEY " + "AUTOINCREMENT" + ")" 
+                sentence += k + " " + v + " PRIMARY KEY AUTOINCREMENT" + ")" 
 
         n += 1
     return sentence
