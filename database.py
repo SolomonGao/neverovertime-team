@@ -90,13 +90,13 @@ def createTables(targetConn, tableName, columnsDic):
 
 # This function forms a sql command for insertion. 
 # Format :  INSERT OR IGNORE INTO "table name" (?, ?, ?, ....)(based on the length)
-def sqlSentenceForInsertion(tableName, columnNameDic):
+def sqlSentenceForInsertion(tableName, columnDic):
 
     table = tableName + "("
     value = " VALUES("
     n = 0
-    for key in columnNameDic.keys():
-        if n != len(columnNameDic) - 1:
+    for key in columnDic.keys():
+        if n != len(columnDic) - 1:
             table += key +", "
             value += "?, "
         else:
@@ -120,7 +120,6 @@ def newDatabse(filePath, filename):
     file = filePath + "/" + filename
     target_conn = sqlite3.connect(file)
     return target_conn
-
 
 def main():
     # for testsing
