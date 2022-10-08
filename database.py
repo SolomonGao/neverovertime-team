@@ -20,27 +20,27 @@ def getAllTableNames(cursor):
     return tables
 
 # This function returns the ID indext of one selected table.
-def getIDIndex(columnDic):
+def getIDIndex(columnsDic):
 
     n = 0
-    for key in columnDic.keys():
+    for key in columnsDic.keys():
         if key == "ID":
             return n
         n += 1
 
 # This function forms a sql command that stores all the columns names and data types and returns it.
 # Format :  ( column name datatype PRIMARY KEY AUTOINCREMENT(if applied), column name data type, .... ) (based on the length)
-def SqlSentenceForColumn(columnNameDic):
+def SqlSentenceForColumn(columnsDic):
     sentence = " ("
     n = 0
-    for k, v in columnNameDic.items():
+    for k, v in columnsDic.items():
         if k != "ID":
-            if n != len(columnNameDic) - 1:
+            if n != len(columnsDic) - 1:
                 sentence += k + " " + v + ", "
             else:
                 sentence += k + " " + v + ")"
         else:
-            if n != len(columnNameDic) - 1:
+            if n != len(columnsDic) - 1:
                 sentence += k + " " + v + " PRIMARY KEY AUTOINCREMENT" + ", " 
             else:
                 sentence += k + " " + v + " PRIMARY KEY AUTOINCREMENT" + ")" 
@@ -90,13 +90,13 @@ def createTables(targetConn, tableName, columnsDic):
 
 # This function forms a sql command for insertion. 
 # Format :  INSERT OR IGNORE INTO "table name" (?, ?, ?, ....)(based on the length)
-def sqlSentenceForInsertion(tableName, columnDic):
+def sqlSentenceForInsertion(tableName, columnsDic):
 
     table = tableName + "("
     value = " VALUES("
     n = 0
-    for key in columnDic.keys():
-        if n != len(columnDic) - 1:
+    for key in columnsDic.keys():
+        if n != len(columnsDic) - 1:
             table += key +", "
             value += "?, "
         else:
