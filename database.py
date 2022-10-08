@@ -115,7 +115,6 @@ def insertValue(targetConn, tableName, columnsDic, values):
     target_cur = targetConn.cursor()
     target_cur.execute(sql, values)
 
-
 def main():
     # two databases we are going to merge
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
