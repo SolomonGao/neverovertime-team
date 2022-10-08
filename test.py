@@ -51,41 +51,20 @@ temp_sql = ""
 temp_data_list = results
 table = "jobSubCategories"
 
-id = "ID"
-name = "name"
-sortID = "SortID"
 
-column = [id, name, sortID] 
+sql = "CREATE TABLE IF NOT EXISTS " + table + "( ID integer PRIMARY KEY, name text, SortID int)"""
 
-dic = {
-    type(int) : "INT",
-    type(str) : "TEXT",
-    "Picture" : "BLOB"
- }
+des_cur.execute(sql)
 
-column = "( " 
-n = 0
+for a in temp_list:
 
-len(column)
-
-# while n < len(column):
-#     column += "1"
-#     n += 1
-#     print(n)
-
-
-
-# sql = "CREATE TABLE IF NOT EXISTS " + table + " ( " + id + " "\
-# + type(id) + "PRIMARY KEY, " + name + " " + type(name) + \
-#  + sortID + " " + type(sortID)
-
-# des_cur.execute(sql)
-
-# for a in temp_list:
-
-#     des_cur.execute('INSERT OR IGNORE INTO jobSubcategories (ID, name, SortID) VALUES(?, ?, ?)', (a[0], str(a[1]), a[2]))
+    des_cur.execute('INSERT OR IGNORE INTO jobSubcategories (ID, name, SortID) VALUES(?, ?, ?)', (a[0], str(a[1]), a[2]))
 
 des_conn.commit()
+ 
+
+
+
 
 # conn = sqlite3.connect('test_database') 
 # c = conn.cursor()
