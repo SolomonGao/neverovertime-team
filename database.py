@@ -1,8 +1,8 @@
-
+import sqlite3
 
 
 def readDatabase(filePath):
-    pass
+    conn = s
 
 def checkDupilcate():
     pass
@@ -10,5 +10,6 @@ def checkDupilcate():
 def checkId():
     pass
 
-def merge():
-    pass
+def merge(table1, table2):
+    combined = set(table1) | set(table2)
+    return combined
