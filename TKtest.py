@@ -65,14 +65,11 @@ def openWindow():
     myLabel = Label(new, text="Add some thing")
     myLabel.grid(row=0, column=0)
 
-def get_data():
-       folder_name = entry.get()
-       # print(folder_name)
-       return folder_name
 
-def create_subfolder(text):
-       source_path = filedialog.askdirectory(title='Select the Parent Directory')
-       path = os.path.join(source_path, get_data())
+
+def create_subfolder(folder_name):
+       source_path = fd.askdirectory(title='Select the Parent Directory')
+       path = os.path.join(source_path, folder_name)
        os.makedirs(path)
        print(path)
 
@@ -82,6 +79,10 @@ def clear_data():
 def folder_created_message():
    label.Label(window2_main, text="New Folder was created", bg="white")
 
+def get_data(entry):
+       folder_name = entry.get()
+       # print(folder_name)
+       return folder_name
 
 
 def openWindow2():
@@ -103,9 +104,10 @@ def openWindow2():
        pady=5,
        ).pack()
 
-    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data())).pack()
+    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).pack()
 
     button3 = Button(window2_main, text="Clear", command=clear_data ).pack()
+    
 
     window2_main.mainloop()
 
