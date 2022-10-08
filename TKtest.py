@@ -54,10 +54,6 @@ def selectFile2(button):
     button['text'] = file_path2
     return file_path2
 
-# def displayFilename(button, fileName):
-#     '''Replace the button with the file path'''
-#     button['text'] = fileName
-
 def openWindow():
     new = Toplevel()
     new.geometry("500x500")
@@ -87,6 +83,8 @@ def folder_created_message():
 def openWindow2():
     root.destroy()
     window2_main = Tk()
+    window2_main.geometry("700x500")
+    window2_main.title("Create new folder")
     Label(window2_main, text="New").pack()
     # Import the required libraries
     # Import the required libraries
@@ -119,8 +117,6 @@ file_path2 = ''
 button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile2(button2))
 button2.grid(row = 2, column = 1)
 
-Label(root, text=file_path1).grid(row=3, column=5)
-
 button3 = Button(root, text="Next", command=openWindow2)
 # button3 = Button(root, text="Next", command=openWindow)
 button3.grid(row=3, column=1)
@@ -130,3 +126,6 @@ root.configure(bg='#f0f0f0')
 
 # run the application
 root.mainloop()
+
+print(file_path1)
+print(file_path2)
