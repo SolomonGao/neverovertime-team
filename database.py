@@ -90,7 +90,8 @@ def main():
             cur2.execute(sql)
             result2 = cur2.fetchall() # all the rows in table2
 
-            temp_result = set(result1) | set(result2)
+            # temp_result = set(result1) | set(result2)
+            temp_result = result1 + result2
 
             orderedList = reorderID(ID_index, temp_result)
             if temp_table_name == "JobSubCategories":
