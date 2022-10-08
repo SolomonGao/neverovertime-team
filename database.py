@@ -124,12 +124,12 @@ def newDatabse(filePath, filename):
     target_conn = sqlite3.connect(file)
     return target_conn
 
-def main():
+def main(path1, path2, file):
     # for testsing
-    prv_file1 = "D:/test/EpilogJobManagement.db3-first.db3"
-    prv_file2 = "D:/test/EpilogJobManagement.db3-second.db3"
-    target_file_path = "D:/test"
-    target_file_name = "new.db3"
+    prv_file1 = path1
+    prv_file2 = path2
+    target_file_path = file
+    target_file_name = "new_database.db3"
     # two databases we are going to merge
     cur1 = readDatabase(prv_file1)
     cur2 = readDatabase(prv_file2)
