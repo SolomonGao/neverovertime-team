@@ -20,30 +20,30 @@ def getAllTableNames(cursor):
     return tables
 
 # This function returns the ID indext of one selected table.
-def getIDIndex(columnDic):
+def getIDIndex(columnsDic):
 
     n = 0
-    for key in columnDic.keys():
+    for key in columnsDic.keys():
         if key == "ID":
             return n
         n += 1
 
 # This function forms a sql command that stores all the columns names and data types and returns it.
-# Format :  ( column name datatype PRIMARY KEY(if applied), column name data type, .... ) (based on the length)
-def SqlSentenceForColumn(columnNameDic):
-    sentence = " ( "
+# Format :  ( column name datatype PRIMARY KEY AUTOINCREMENT(if applied), column name data type, .... ) (based on the length)
+def SqlSentenceForColumn(columnsDic):
+    sentence = " ("
     n = 0
-    for k, v in columnNameDic.items():
+    for k, v in columnsDic.items():
         if k != "ID":
-            if n != len(columnNameDic) - 1:
+            if n != len(columnsDic) - 1:
                 sentence += k + " " + v + ", "
             else:
-                sentence += k + " " + v + " )"
+                sentence += k + " " + v + ")"
         else:
-            if n != len(columnNameDic) - 1:
-                sentence += k + " " + v + " PRIMARY KEY " + ", " 
+            if n != len(columnsDic) - 1:
+                sentence += k + " " + v + " PRIMARY KEY AUTOINCREMENT" + ", " 
             else:
-                sentence += k + " " + v + " PRIMARY KEY " + ")" 
+                sentence += k + " " + v + " PRIMARY KEY AUTOINCREMENT" + ")" 
 
         n += 1
     return sentence
@@ -90,13 +90,13 @@ def createTables(targetConn, tableName, columnsDic):
 
 # This function forms a sql command for insertion. 
 # Format :  INSERT OR IGNORE INTO "table name" (?, ?, ?, ....)(based on the length)
-def sqlSentenceForInsertion(tableName, columnNameDic):
+def sqlSentenceForInsertion(tableName, columnsDic):
 
     table = tableName + "("
     value = " VALUES("
     n = 0
-    for key in columnNameDic.keys():
-        if n != len(columnNameDic) - 1:
+    for key in columnsDic.keys():
+        if n != len(columnsDic) - 1:
             table += key +", "
             value += "?, "
         else:
@@ -115,12 +115,23 @@ def insertValue(targetConn, tableName, columnsDic, values):
     target_cur = targetConn.cursor()
     target_cur.execute(sql, values)
 
+# This function gets a file path and file name, then creates (if not exsit) a new .db3 file. It returns the connection of this file.  
+def newDatabse(filePath, filename):
+    file = filePath + "/" + filename
+    target_conn = sqlite3.connect(file)
+    return target_conn
+
 def main():
+    # for testsing
+    prv_file1 = "D:/test/EpilogJobManagement.db3-first.db3"
+    prv_file2 = "D:/test/EpilogJobManagement.db3-second.db3"
+    target_file_path = "D:/test"
+    target_file_name = "new.db3"
     # two databases we are going to merge
-    cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
-    cur2 = readDatabase("D:/test/EpilogJobManagement.db3-second.db3")
+    cur1 = readDatabase(prv_file1)
+    cur2 = readDatabase(prv_file2)
     # target database
-    target_conn = sqlite3.connect("test.db3")
+    target_conn = newDatabse(target_file_path, target_file_name)
     table1 = getAllTableNames(cur1)
     table2 = getAllTableNames(cur2)
     # The tables should be exactly the same in order to use the program 
@@ -147,8 +158,10 @@ def main():
             result1 = cur1.fetchall() # all the rows in table1
             cur2.execute(sql)
             result2 = cur2.fetchall() # all the rows in table2
+
             # temp_result = set(result1) | set(result2)
             temp_result = result1 + result2
+
             # reorder the id index
             orderedRows = reorderID(ID_index, temp_result)
             # loop the data in the table
