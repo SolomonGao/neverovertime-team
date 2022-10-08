@@ -52,7 +52,7 @@ temp_data_list = results
 table = "jobSubCategories"
 
 
-sql = "CREATE TABLE IF NOT EXISTS " + table + "( ID integer PRIMARY KEY, name text, SortID int)"""
+sql = "CREATE TABLE IF NOT EXISTS " + table + "( ID integer PRIMARY KEY, name text, SortID int )"""
 
 des_cur.execute(sql)
 

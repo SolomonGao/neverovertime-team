@@ -33,8 +33,14 @@ def getIDIndex(columnDic):
 
 def SqlSentenceForColumn(columnNameDic):
     sentence = " ( "
-    for k, v in columnNameDic.item():
-        sentence += 
+    n = 0
+    for k, v in columnNameDic.items():
+        if n != len(columnNameDic) - 1:
+            sentence += k + " " + v + ", "
+        else:
+            sentence += k + " " + v + " )"
+        n += 1
+    print(sentence)
 
 def getColunmNames(cursor, tableName):
     
@@ -42,8 +48,6 @@ def getColunmNames(cursor, tableName):
 
     cursor.execute(sql)
     columnsInfo = cursor.fetchall()
-
-    print(columnsInfo)
 
     columnsDic = dict()
     for column in columnsInfo:
@@ -89,7 +93,8 @@ def main():
             # get the index of ID column of this table
             ID_index = getIDIndex(temp_columns_dic)
             
-
+            SqlSentenceForColumn(temp_columns_dic)
+            
             # start merging
             sql = "SELECT * FROM " + temp_table_name
             cur1.execute(sql)
@@ -100,8 +105,8 @@ def main():
             # temp_result = set(result1) | set(result2)
             temp_result = result1 + result2
 
+            
             orderedList = reorderID(ID_index, temp_result)
-
             
 
 
