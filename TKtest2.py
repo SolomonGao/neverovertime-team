@@ -168,7 +168,7 @@ def clicked():
 def Export_File():
     dir_name = fd.askdirectory() # asks user to choose a directory
     os.chdir(dir_name) # changes your current directory
-    
+
 Export_File()
 entry1 = Entry(root)
 button1 = Button(root,text="Press to create text file", command = clicked)
@@ -177,3 +177,9 @@ button1.pack()
 
 root.mainloop()
 
+
+
+    #   entry1 = Entry(window2_main)
+    # entry1.pack()
+    # button1 = Button(window2_main,text="Press to create db3 file", command=combined)
+    # button1.pack()
