@@ -115,12 +115,24 @@ def insertValue(targetConn, tableName, columnsDic, values):
     target_cur = targetConn.cursor()
     target_cur.execute(sql, values)
 
+# This function gets a file path and file name, then creates (if not exsit) a new .db3 file. It returns the connection of this file.  
+def newDatabse(filePath, filename):
+    file = filePath + "/" + filename
+    target_conn = sqlite3.connect(file)
+    return target_conn
+
+
 def main():
+    # for testsing
+    prv_file1 = "D:/test/EpilogJobManagement.db3-first.db3"
+    prv_file2 = "D:/test/EpilogJobManagement.db3-second.db3"
+    target_file_path = "D:/test"
+    target_file_name = "new.db3"
     # two databases we are going to merge
-    cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
-    cur2 = readDatabase("D:/test/EpilogJobManagement.db3-second.db3")
+    cur1 = readDatabase(prv_file1)
+    cur2 = readDatabase(prv_file2)
     # target database
-    target_conn = sqlite3.connect("test.db3")
+    target_conn = newDatabse(target_file_path, target_file_name)
     table1 = getAllTableNames(cur1)
     table2 = getAllTableNames(cur2)
     # The tables should be exactly the same in order to use the program 
@@ -147,8 +159,10 @@ def main():
             result1 = cur1.fetchall() # all the rows in table1
             cur2.execute(sql)
             result2 = cur2.fetchall() # all the rows in table2
+
             # temp_result = set(result1) | set(result2)
             temp_result = result1 + result2
+
             # reorder the id index
             orderedRows = reorderID(ID_index, temp_result)
             # loop the data in the table
