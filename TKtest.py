@@ -14,11 +14,9 @@ root.resizable(True, True)
 root.geometry('500x500') # This is the size of the window
 
 # Create a label widget
-l1 = Label(root, text="First File:")
-l1.config(bg="light gray")
-l2 = Label(root, text="Second File:")
-l2.config(bg="light gray")
-l3 = Label(root, text="     ", bg="light gray")
+l1 = Label(root, text="First File:", border= 7, borderwidth=20, bg="#f0f0f0")
+l2 = Label(root, text="Second File:", border= 7, borderwidth=20, bg="#f0f0f0")
+l3 = Label(root, text="     ", bg="#f0f0f0" )
 
 # grid method to arrange labels in respective
 # rows and columns as specified
@@ -36,7 +34,7 @@ def selectFile():
     )
     fileName = fd.askopenfilename(
     title='Select a file',
-    initialdir='/',
+    initialdir='/test/EpilogJobManagement.db3-second.db3',
     filetypes=filetypes)    
     return fileName
 
@@ -45,13 +43,13 @@ def displayFilename(button, fileName):
     button['text'] = fileName
 
 # create button for user to click and select files
-button1 = Button(root, text="Select file", command=selectFile)
+button1 = Button(root, text="Select file", state=DISABLED)
 fileName = selectFile()
 displayFilename(button1, fileName)
-button2 = Button(root, text="Select file", command=selectFile)
+button2 = Button(root, text="Select file", state=DISABLED)
 fileName = selectFile()
 displayFilename(button2, fileName)
-button3 = Button(root, text="Merge")
+button3 = Button(root, text="Merge" )
 # button4 = Button(root, text = "   ")
 button1.grid(row = 0, column = 1)
 # button4.grid(row=1, column = 1)
@@ -59,7 +57,7 @@ button2.grid(row = 2, column = 1)
 button3.grid(row=4, column=1)
 
 # Set the background color
-root.configure(bg='light gray')
+root.configure(bg='#f0f0f0')
 
 
 
