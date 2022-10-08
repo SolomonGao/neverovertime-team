@@ -134,7 +134,7 @@ button1 = Button(root, text="Select file", command=lambda:file_path1 == selectFi
 button1.grid(row = 0, column = 1)
 
 file_path2 = ''
-button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile2(button2))
+button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile1(button1))
 button2.grid(row = 2, column = 1)
 
 button3 = Button(root, text="Next", command=openWindow2)
