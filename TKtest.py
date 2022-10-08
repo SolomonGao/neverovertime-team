@@ -122,7 +122,7 @@ def openWindow2():
     button3 = Button(window2_main, text="Clear", command=folder_created_message).pack()
     
     entry1 = Entry(window2_main).pack()
-    button1 = Button(window2_main,text="Press to create text file", command = create_file(entry1)).pack()
+    button1 = Button(window2_main,text="Press to create bd3 file", command = create_file(entry1)).pack()
 
     window2_main.mainloop()
 
