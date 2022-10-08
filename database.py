@@ -40,7 +40,7 @@ def SqlSentenceForColumn(columnNameDic):
         else:
             sentence += k + " " + v + " )"
         n += 1
-    print(sentence)
+    return sentence
 
 def getColunmNames(cursor, tableName):
     
@@ -89,24 +89,32 @@ def main():
 
             # get all the columns name of this table
             temp_columns_dic = getColunmNames(cur1, temp_table_name)
-            #print(temp_columns_list)
+            # print(temp_columns_list)
             # get the index of ID column of this table
             ID_index = getIDIndex(temp_columns_dic)
             
-            SqlSentenceForColumn(temp_columns_dic)
-            
-            # start merging
-            sql = "SELECT * FROM " + temp_table_name
-            cur1.execute(sql)
-            result1 = cur1.fetchall() # all the rows in table1
-            cur2.execute(sql)
-            result2 = cur2.fetchall() # all the rows in table2
-
-            # temp_result = set(result1) | set(result2)
-            temp_result = result1 + result2
+            # the sql command to create table
+            column_sentence = SqlSentenceForColumn(temp_columns_dic)
+            sql_creating = "CREATE TABLE IF NOT EXISTS " + temp_table_name + column_sentence
+            # print(sql_creating)
+            target_conn = sqlite3.connect("test.db3")
+            target_cur = target_conn.cursor()
+            target_cur.execute(sql_creating)
+            target_conn.commit()
 
             
-            orderedList = reorderID(ID_index, temp_result)
+            # # start merging
+            # sql = "SELECT * FROM " + temp_table_name
+            # cur1.execute(sql)
+            # result1 = cur1.fetchall() # all the rows in table1
+            # cur2.execute(sql)
+            # result2 = cur2.fetchall() # all the rows in table2
+
+            # # temp_result = set(result1) | set(result2)
+            # temp_result = result1 + result2
+
+            
+            # orderedList = reorderID(ID_index, temp_result)
             
 
 

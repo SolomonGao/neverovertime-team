@@ -11,7 +11,7 @@ root.geometry("700x350")
 
 def get_data():
    folder_name = entry.get()
-   print(folder_name)
+   # print(folder_name)
    return folder_name
 
 entry = Entry(root, width= 42)
@@ -37,10 +37,8 @@ Label(
    ).pack()
 
 
-folder = ""
 
-
-button2 = Button(root,text="Select New Folder Location", command=lambda: folder == create_subfolder(text=get_data())).pack()
+button2 = Button(root,text="Select New Folder Location", command=lambda: create_subfolder(get_data())).pack()
 
 button3 = Button(root, text="Clear", command=clear_data ).pack()
 
