@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import RIGHT, ttk
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
+from tkinter import messagebox
 from tkinter.ttk import *
 from tkinter import *
 import os
@@ -69,11 +70,17 @@ def create_subfolder(folder_name):
        os.makedirs(path)
        print(path)
 
-def clear_data():
+def clear_data(entry):
        entry.delete(0, END) 
 
 def folder_created_message():
-   label.Label(window2_main, text="New Folder was created", bg="white")
+#    label.Label(window2_main, text="New Folder was created", bg="white")
+    # window2_main.geometry("500x500")
+    top = Toplevel()
+    top.geometry("250x250")
+    top.title("Child Window")
+    Label(top, text= "You made it Joseph!!", font=('Mistral 18 bold')).pack()
+    # top.messagebox("Information","You have successfully created the folder")
 
 def get_data(entry):
        folder_name = entry.get()
@@ -102,12 +109,24 @@ def openWindow2():
        pady=5,
        ).pack()
 
+    entry1 = Entry(window2_main)
+    entry1.grid(row=4, column=4)
+    button1 = Button(root,text="Press to create text file", command = create_file(entry1))
+    button1.grid(row=3,column=5)
+
+
+
     button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).pack()
 
-    button3 = Button(window2_main, text="Clear", command=clear_data ).pack()
+    button3 = Button(window2_main, text="Clear", command=folder_created_message).pack()
     
 
     window2_main.mainloop()
+
+def create_file(entry1):
+    Input = entry1.get()
+    FileName = str(Input + ".db3")
+    TextFile = open(FileName,"w")
 
 
 # create button for user to click and select files
