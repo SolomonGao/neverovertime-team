@@ -54,10 +54,6 @@ def selectFile2(button):
     button['text'] = file_path2
     return file_path2
 
-# def displayFilename(button, fileName):
-#     '''Replace the button with the file path'''
-#     button['text'] = fileName
-
 def openWindow():
     new = Toplevel()
     new.geometry("500x500")
@@ -65,14 +61,11 @@ def openWindow():
     myLabel = Label(new, text="Add some thing")
     myLabel.grid(row=0, column=0)
 
-def get_data():
-       folder_name = entry.get()
-       # print(folder_name)
-       return folder_name
 
-def create_subfolder(text):
-       source_path = filedialog.askdirectory(title='Select the Parent Directory')
-       path = os.path.join(source_path, get_data())
+
+def create_subfolder(folder_name):
+       source_path = fd.askdirectory(title='Select the Parent Directory')
+       path = os.path.join(source_path, folder_name)
        os.makedirs(path)
        print(path)
 
@@ -82,11 +75,17 @@ def clear_data():
 def folder_created_message():
    label.Label(window2_main, text="New Folder was created", bg="white")
 
+def get_data(entry):
+       folder_name = entry.get()
+       # print(folder_name)
+       return folder_name
 
 
 def openWindow2():
     root.destroy()
     window2_main = Tk()
+    window2_main.geometry("700x500")
+    window2_main.title("Create new folder")
     Label(window2_main, text="New").pack()
     # Import the required libraries
     # Import the required libraries
@@ -103,9 +102,10 @@ def openWindow2():
        pady=5,
        ).pack()
 
-    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data())).pack()
+    button2 = Button(window2_main,text="Select New Folder Location", command=lambda: create_subfolder(get_data(entry))).pack()
 
     button3 = Button(window2_main, text="Clear", command=clear_data ).pack()
+    
 
     window2_main.mainloop()
 
@@ -119,8 +119,6 @@ file_path2 = ''
 button2 = Button(root, text="Select file", command=lambda:file_path2 == selectFile2(button2))
 button2.grid(row = 2, column = 1)
 
-Label(root, text=file_path1).grid(row=3, column=5)
-
 button3 = Button(root, text="Next", command=openWindow2)
 # button3 = Button(root, text="Next", command=openWindow)
 button3.grid(row=3, column=1)
@@ -130,3 +128,6 @@ root.configure(bg='#f0f0f0')
 
 # run the application
 root.mainloop()
+
+print(file_path1)
+print(file_path2)
