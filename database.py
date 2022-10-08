@@ -120,43 +120,38 @@ def main():
     # two databases we are going to merge
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
     cur2 = readDatabase("D:/test/EpilogJobManagement.db3-second.db3")
-
     # target database
     target_conn = sqlite3.connect("test.db3")
     table1 = getAllTableNames(cur1)
     table2 = getAllTableNames(cur2)
+    # The tables should be exactly the same in order to use the program 
     if table1 != table2:
         print("The tables are different!")
         exit()
 
     num_tables = len(table1)
-
     for i in range(num_tables):
         # the name of the table we are going to merge
         temp_table_name = table1[i][0]
         #print(temp_table_name)
         if temp_table_name != "sqlite_sequence":
-
             # get all the columns name of this table
             temp_columns_dic = getColunmNames(cur1, temp_table_name)
             # print(temp_columns_list)
             # get the index of ID column of this table
             ID_index = getIDIndex(temp_columns_dic)
-            
+            # Create all the table in the new database
             createTables(target_conn, temp_table_name, temp_columns_dic)
-            
             # start merging
             sql = "SELECT * FROM " + temp_table_name
             cur1.execute(sql)
             result1 = cur1.fetchall() # all the rows in table1
             cur2.execute(sql)
             result2 = cur2.fetchall() # all the rows in table2
-
             # temp_result = set(result1) | set(result2)
             temp_result = result1 + result2
             # reorder the id index
             orderedRows = reorderID(ID_index, temp_result)
-
             # loop the data in the table
             for row in orderedRows:
                 tempValue = []
