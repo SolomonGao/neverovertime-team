@@ -45,12 +45,19 @@ def getColunmNames(cursor, tableName):
     return columnsList
 
 def reorderID(IDIndex, data):
-    temp_list =[]
 
-    i = 0
+    j = 1
+    temp_list = []
     for datum in data:
-        len(datum)
-        datum[IDIndex]
+        temp = []
+        for i in range(len(datum)):
+            if i != IDIndex:
+                temp.append(datum[i])
+            else:
+                temp.append(j)
+        temp_list.append(temp)
+        j += 1
+    return temp_list
 
 def main():
     cur1 = readDatabase("D:/test/EpilogJobManagement.db3-first.db3")
@@ -84,6 +91,10 @@ def main():
             result2 = cur2.fetchall() # all the rows in table2
 
             temp_result = set(result1) | set(result2)
+
+            orderedList = reorderID(ID_index, temp_result)
+            if temp_table_name == "JobSubCategories":
+                print(orderedList)
             
 
 
