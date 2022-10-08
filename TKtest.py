@@ -87,6 +87,10 @@ def get_data(entry):
        # print(folder_name)
        return folder_name
 
+def create_file(entry1):
+    Input = entry1.get()
+    FileName = str(Input + ".db3")
+    TextFile = open(FileName,"w")
 
 def openWindow2():
     root.destroy()
@@ -109,10 +113,7 @@ def openWindow2():
        pady=5,
        ).pack()
 
-    entry1 = Entry(window2_main)
-    entry1.grid(row=4, column=4)
-    button1 = Button(root,text="Press to create text file", command = create_file(entry1))
-    button1.grid(row=3,column=5)
+    # button1.grid(row=3,column=5)
 
 
 
@@ -120,13 +121,11 @@ def openWindow2():
 
     button3 = Button(window2_main, text="Clear", command=folder_created_message).pack()
     
+    entry1 = Entry(window2_main).pack()
+    button1 = Button(window2_main,text="Press to create text file", command = create_file(entry1)).pack()
 
     window2_main.mainloop()
 
-def create_file(entry1):
-    Input = entry1.get()
-    FileName = str(Input + ".db3")
-    TextFile = open(FileName,"w")
 
 
 # create button for user to click and select files
@@ -147,6 +146,3 @@ root.configure(bg='#f0f0f0')
 
 # run the application
 root.mainloop()
-
-print(file_path1)
-print(file_path2)
