@@ -23,13 +23,14 @@ def getAllTableNames(cursor):
     tables = cursor.fetchall()
     return tables
 
-def getIDIndex(columnList):
+def getIDIndex(columnDic):
 
-    i = 0
-    while i < len(columnList):
-        if columnList[i] == "ID":
-            return i
-        i += 1 
+    n = 0
+    for key in columnDic.keys():
+        if key == "ID":
+            return n
+        n += 1
+
 
 def getColunmNames(cursor, tableName):
     
@@ -38,11 +39,11 @@ def getColunmNames(cursor, tableName):
     cursor.execute(sql)
     columnsInfo = cursor.fetchall()
 
-    columnsList = []
-
+    columnsDic = dict()
     for column in columnsInfo:
-        columnsList.append(column[1])
-    return columnsList
+        columnsDic[column[1]] = column[2]
+
+    return columnsDic
 
 def reorderID(IDIndex, data):
 
@@ -77,10 +78,11 @@ def main():
         if temp_table_name != "sqlite_sequence":
 
             # get all the columns name of this table
-            temp_columns_list = getColunmNames(cur1, temp_table_name)
+            temp_columns_dic = getColunmNames(cur1, temp_table_name)
             #print(temp_columns_list)
             # get the index of ID column of this table
-            ID_index = getIDIndex(temp_columns_list)
+            ID_index = getIDIndex(temp_columns_dic)
+            print(ID_index)
             
 
             # start merging
@@ -94,8 +96,7 @@ def main():
             temp_result = result1 + result2
 
             orderedList = reorderID(ID_index, temp_result)
-            if temp_table_name == "JobSubCategories":
-                print(orderedList)
+
             
 
 
