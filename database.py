@@ -1,3 +1,4 @@
+from operator import itemgetter
 import sqlite3
 
 # The function gets the file path and connects it to the sqlite3 and returns the curosr.
@@ -8,7 +9,7 @@ def readDatabase(filePath):
 
 # The function merges two set into one (No duplicate) and returns it.
 def merge(table1, table2):
-    combined = set(table1) | set(table2)
+    combined = list(set(table1) | set(table2))
     return combined
 
 # This function returns all the table names in the database.
@@ -62,11 +63,13 @@ def getColunmNames(cursor, tableName):
 
     return columnsDic
 
+    
 # This function reorders the ID for the merged table and return it.
 def reorderID(IDIndex, data):
 
     j = 1
     temp_list = []
+    data = sorted(data, key=itemgetter(IDIndex))
     for datum in data:
         temp = []
         for i in range(len(datum)):
@@ -159,19 +162,18 @@ def main():
             cur2.execute(sql)
             result2 = cur2.fetchall() # all the rows in table2
 
-            # temp_result = set(result1) | set(result2)
-            temp_result = result1 + result2
+            temp_result = merge(result1, result2)
+            # temp_result = result1 + result2
 
             # reorder the id index
-            orderedRows = reorderID(ID_index, temp_result)
+            ordered_rows = reorderID(ID_index, temp_result)
             # loop the data in the table
-            for row in orderedRows:
+            for row in ordered_rows:
                 tempValue = []
                 for value in row:
                     tempValue.append(value)
                 tempValue = tuple(tempValue)
                 insertValue(target_conn, temp_table_name, temp_columns_dic, tempValue)
-
             target_conn.commit()
 
 if __name__ == "__main__":
